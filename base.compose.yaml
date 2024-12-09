@@ -1,0 +1,17 @@
+name: homelab-base
+# trunk-ignore-all(composefmt)
+networks:
+  default:
+    external: true
+    name: $DEFAULT_BRIDGE
+  external:
+    external: true
+    name: $EXTERNAL_BRIDGE
+  traefik:
+    external: true
+    name: $TRAEFIK_BRIDGE
+include:
+  - apps/tsdproxy/compose.yaml
+  - apps/docker-proxy/compose.yaml
+  - apps/portainer/compose.yaml
+  # - apps/exitnode/compose.yam

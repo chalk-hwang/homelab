@@ -6,9 +6,12 @@ tasks:
   up:
     cmds:
       - docker compose --env-file .env -f "compose.yaml" --profile all up --build -d --remove-orphans
+  down-base:
+    cmds:
+      - docker compose --env-file .env -f 'base.compose.yaml' --profile base down --remove-orphans
   up-base:
     cmds:
-      - docker compose --env-file .env -f "compose.yaml" --profile base up --build -d --remove-orphans
+      - docker compose --env-file .env -f "base.compose.yaml" --profile base up --build -d --remove-orphans
       # vars:
 # PROFILE_NAME: "{{index .MATCH 0}}"
 
