@@ -1,6 +1,6 @@
 volumes:
-  emqx-data: null
-  emqx-log: null
+  emqx-data:
+  emqx-log:
 secrets:
   emqx_auth_db_password:
     file: $SECRETS_DIR/emqx_auth_db_password
