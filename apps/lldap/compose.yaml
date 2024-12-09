@@ -36,7 +36,7 @@ services:
       - "389:389"
     volumes:
       - $DATA_DIR/lldap:/data
-      - ./lldap_config.toml:/data/lldap_config.toml
+      # - ./lldap_config.toml:/data/lldap_config.toml
     depends_on:
       - timescaledb
     # For LDAPS (LDAP Over SSL), enable port if LLDAP_LDAPS_OPTIONS__ENABLED set true, look env below
