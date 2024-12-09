@@ -9,7 +9,7 @@ services:
       - traefik
       - default
     volumes:
-      - ./config:/etc/carpal
+      - $DATA_DIR/carpal:/etc/carpal
     depends_on:
       - lldap
     labels:
