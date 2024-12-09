@@ -19,7 +19,7 @@ include:
   - apps/pgadmin/compose.yaml
   - apps/lldap/compose.yaml
   - apps/cloudflared/compose.yaml
-  # - apps/docker-proxy/compose.yaml
+  - apps/docker-proxy/compose.yaml
   - apps/traefik/compose.yaml
   - apps/traefik-cloudflare-companion/compose.yaml
   - apps/traefik-bouncer/compose.yaml

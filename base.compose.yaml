@@ -12,6 +12,6 @@ networks:
     name: $TRAEFIK_BRIDGE
 include:
   - apps/tsdproxy/compose.yaml
-  - apps/docker-proxy/compose.yaml
+  # - apps/docker-proxy/compose.yaml
   - apps/portainer/compose.yaml
   # - apps/exitnode/compose.yam

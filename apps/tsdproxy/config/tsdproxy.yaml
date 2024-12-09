@@ -3,7 +3,7 @@ docker:
   local:
     defaultproxyprovider: default
     # name of the docker provider
-    host: tcp://docker-proxy:2375
+    host: unix:///var/run/docker.sock
     targethostname: 10.2.0.1
 file: {}
 http:

@@ -3,7 +3,7 @@ services:
   docker-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: docker-proxy
-    profiles: ["base"]
+    profiles: ["core", "all"]
     privileged: true
     security_opt:
       - no-new-privileges:true
@@ -43,7 +43,7 @@ services:
     # ports:
     #- "2375:2375"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     read_only: true
     tmpfs:

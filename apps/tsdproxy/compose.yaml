@@ -16,6 +16,7 @@ services:
     networks:
       - default
     volumes:
-      - $DATA_DIR/tsdproxy:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - tsdproxy-data:/data
       - ./config:/config
     restart: unless-stopped

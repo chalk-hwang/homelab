@@ -6,30 +6,29 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer
     profiles: ["base"]
+    privileged: true
     security_opt:
       - no-new-privileges:true
     environment:
       - TZ=$TZ
     networks:
-      - traefik
+      # - traefik
       - default
-    # ports: # For access from local network using enable this ports block.
-    #   - "9000:9000" # Port 9000 must be free on the Docker host.
+    ports: # For access from local network using enable this ports block.
+      - "9000:9000" # Port 9000 must be free on the Docker host.
     volumes:
-      # - /var/run/docker.sock:/var/run/docker.sock:ro # Use Docker Socket Proxy instead for improved security
-      - $DATA_DIR/portainer:/data
-    depends_on:
-      - docker-proxy
+      - /var/run/docker.sock:/var/run/docker.sock # Use Docker Socket Proxy instead for improved security
+      - portainer-data:/data
     restart: unless-stopped
-    command: "-H tcp://docker-proxy:2375"
+    # command: "-H tcp://docker-proxy:2375"
     labels:
       - tsdproxy.enable=true
       - tsdproxy.name=portainer
       - tsdproxy.container_port=9000
-      - traefik.enable=true
-      - traefik.docker.network=$TRAEFIK_BRIDGE
-      - traefik.http.routers.portainer-rtr.entrypoints=websecure
-      - traefik.http.routers.portainer-rtr.rule=Host(`portainer.$BASE_DOMAIN`)
-      - traefik.http.routers.portainer-rtr.middlewares=chain-no-auth@file
-      - traefik.http.services.portainer-svc.loadbalancer.server.port=9000
-      - traefik.http.routers.portainer-rtr.service=portainer-svc
+      # - traefik.enable=true
+      # - traefik.docker.network=$TRAEFIK_BRIDGE
+      # - traefik.http.routers.portainer-rtr.entrypoints=websecure
+      # - traefik.http.routers.portainer-rtr.rule=Host(`portainer.$BASE_DOMAIN`)
+      # - traefik.http.routers.portainer-rtr.middlewares=chain-no-auth@file
+      # - traefik.http.services.portainer-svc.loadbalancer.server.port=9000
+      # - traefik.http.routers.portainer-rtr.service=portainer-svc

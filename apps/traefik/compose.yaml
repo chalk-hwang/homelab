@@ -19,7 +19,7 @@ services:
       - traefik_basic_auth_credentials
       - traefik_cloudflare_dns_api_token
     networks:
-      default: null
+      default:
       traefik:
         ipv4_address: 10.2.4.254
     ports:
@@ -32,6 +32,8 @@ services:
       - $DATA_DIR/traefik/acme.json:/acme.json
       - $LOG_DIR/traefik:/logs
     depends_on:
+      docker-proxy:
+        condition: service_started
       error-pages:
         condition: service_healthy
         restart: true
