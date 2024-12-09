@@ -3,7 +3,7 @@ authentication = [
     backend = postgresql
     database = emqx
     mechanism = password_based
-    password = "file:////run/secrets/emqx_auth_db_password"
+    password = "file:///run/secrets/emqx_auth_db_password"
     password_hash_algorithm {name = bcrypt}
     pool_size = 4
     query = "SELECT password_hash, is_superuser FROM mqtt_users where username = ${username} LIMIT 1"

@@ -1,5 +1,5 @@
 volumes:
-  timescaledb-data: null
+  timescaledb-data:
 secrets:
   timescaledb_postgres_password:
     file: $SECRETS_DIR/timescaledb_postgres_password
