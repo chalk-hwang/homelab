@@ -25,8 +25,8 @@ services:
       - 1883:1883
     volumes:
       - emqx-data:/opt/emqx/data
-      - $DATA_DIR/emqx/authz/acl.conf:/opt/emqx/data/authz/acl.conf
-      - $DATA_DIR/emqx/configs/cluster.hocon:/opt/emqx/data/configs/cluster.hocon
+      # - $DATA_DIR/emqx/authz/acl.conf:/opt/emqx/data/authz/acl.conf
+      # - $DATA_DIR/emqx/configs/cluster.hocon:/opt/emqx/data/configs/cluster.hocon
       - emqx-log:/opt/emqx/log
     depends_on:
       - timescaledb
