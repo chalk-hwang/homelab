@@ -27,8 +27,8 @@ services:
       - 0.0.0.0:443:443
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./config/traefik.yaml:/etc/traefik/traefik.yaml
-      - ./config/dynamic:/config/dynamic:ro
+      - $DATA_DIR/traefik/traefik.yaml:/etc/traefik/traefik.yaml
+      - $DATA_DIR/traefik/dynamic:/config/dynamic:ro
       - $DATA_DIR/traefik/acme.json:/acme.json
       - $LOG_DIR/traefik:/logs
     depends_on:

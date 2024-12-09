@@ -1,9 +1,0 @@
-http:
-  middlewares:
-    chain-authelia:
-      chain:
-        middlewares:
-          - rule-crowdsec-bouncer # leave this out if you are not using CrowdSec
-          - rule-rate-limit
-          - rule-secure-headers
-          - rule-authelia

@@ -18,5 +18,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - tsdproxy-data:/data
-      - ./config:/config
+      - $DATA_DIR/tsdproxy:/config
     restart: unless-stopped

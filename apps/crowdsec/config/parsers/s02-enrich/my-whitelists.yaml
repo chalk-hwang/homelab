@@ -1,9 +1,0 @@
-name: my/whitelists
-description: "Whitelist events from my ip addresses"
-whitelist:
-  reason: "my ip ranges"
-  cidr:
-    - "fd7a:115c:a1e0::/48"
-    - "100.64.0.0/10"
-    - "10.0.11.0/24"
-    - "10.0.21.0/24"

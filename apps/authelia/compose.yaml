@@ -43,9 +43,9 @@ services:
     ports:
       - "9091:9091"
     volumes:
-      - ./data/configuration.yaml:/config/configuration.yml
-      - ./data/configuration.acl.yaml:/config/configuration.acl.yml
-      - ./data/configuration.oidc.yaml:/config/configuration.oidc.yml
+      - $DATA_DIR/authelia/configuration.yaml:/config/configuration.yml
+      - $DATA_DIR/authelia/configuration.acl.yaml:/config/configuration.acl.yml
+      - $DATA_DIR/authelia/configuration.oidc.yaml:/config/configuration.oidc.yml
     depends_on:
       - dragonfly
       - timescaledb

@@ -35,7 +35,7 @@ services:
     ports:
       - "389:389"
     volumes:
-      - lldap-data:/data
+      - $DATA_DIR/lldap:/data
       - ./lldap_config.toml:/data/lldap_config.toml
     depends_on:
       - timescaledb
