@@ -28,7 +28,6 @@ services:
     # traefik.http.routers.ping.service: ping@internal
     depends_on:
       - traefik
-      - docker-proxy
     restart: always
 secrets:
   traefik_cloudflare_dns_api_token:

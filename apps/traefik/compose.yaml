@@ -32,8 +32,6 @@ services:
       - $DATA_DIR/traefik/acme.json:/acme.json
       - $LOG_DIR/traefik:/logs
     depends_on:
-      docker-proxy:
-        condition: service_started
       error-pages:
         condition: service_healthy
         restart: true
