@@ -1,0 +1,8 @@
+http:
+  middlewares:
+    chain-no-auth:
+      chain:
+        middlewares:
+          - rule-crowdsec-bouncer # leave this out if you are not using CrowdSec
+          - rule-rate-limit
+          - rule-secure-headers

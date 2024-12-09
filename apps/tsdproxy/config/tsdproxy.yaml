@@ -1,0 +1,22 @@
+defaultproxyprovider: default
+docker:
+  local:
+    defaultproxyprovider: default
+    # name of the docker provider
+    host: tcp://docker-proxy:2375
+    targethostname: 10.2.0.1
+file: {}
+http:
+  hostname: 0.0.0.0
+  port: 8080
+log:
+  json: false
+  level: info
+proxyaccesslog: true
+tailscale:
+  datadir: /data/
+  providers:
+    default:
+      # name 
+      authkeyfile: /run/secrets/tsdproxy_tailscale_authkey
+      controlurl: https://controlplane.tailscale.com

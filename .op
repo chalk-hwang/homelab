@@ -1,0 +1,10 @@
+CLOUDFLARE_API_TOKEN="op://homelab_main/cloudflare/api_token"
+
+BASE_DOMAIN=chalk-ho.me
+ZONE_ID=4b250045ef47f1b01d2512e682be786c
+TZ=Asia/Seoul
+
+PUID=1000
+PGID=1000
+
+

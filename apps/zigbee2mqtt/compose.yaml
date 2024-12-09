@@ -1,0 +1,27 @@
+services:
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt
+    container_name: zigbee2mqtt
+    profiles: ["apps", "all"]
+    environment:
+      - TZ
+    networks:
+      - traefik
+      - default
+    volumes:
+      - ./data:/app/data
+      - $LOG_DIR/zigbee2mqtt:/app/log
+    depends_on:
+      - emqx
+    restart: unless-stopped
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=zigbee2mqtt
+      - tsdproxy.container_port=8099
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.zigbee2mqtt-rtr.entrypoints=websecure
+      - traefik.http.routers.zigbee2mqtt-rtr.rule=Host(`zigbee2mqtt.$BASE_DOMAIN`)
+      - traefik.http.routers.zigbee2mqtt-rtr.service=zigbee2mqtt-svc
+      - traefik.http.services.zigbee2mqtt-svc.loadbalancer.server.port=8099
+      - traefik.http.routers.zigbee2mqtt-rtr.middlewares=chain-authelia@file

@@ -1,0 +1,10 @@
+services:
+  smtp-relay:
+    image: ghcr.io/foxcpp/maddy:0.7.1@sha256:07ef1c8021e05e43d6f05db00bafa6f420469eec31f255363871b57c8fa1596d
+    container_name: smtp-relay
+    profiles: ["core", "all"]
+    networks:
+      - default
+    volumes:
+      - ./data/maddy.conf:/data/maddy.conf:ro
+    restart: always

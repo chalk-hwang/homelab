@@ -1,0 +1,22 @@
+services:
+  dragonfly:
+    image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    container_name: dragonfly
+    profiles: ["dbs", "core", "all"]
+    # For better performance, consider `host` mode instead `port` to avoid docker NAT.
+    # `host` mode is NOT currently supported in Swarm Mode.
+    # https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode
+    # network_mode: "host"
+    environment:
+      - "DFLY_default_lua_flags=allow-undeclared-keys disable-atomicity"
+      - "DFLY_lua_auto_async=true"
+      - "DFLY_lua_allow_undeclared_auto_correct=true"
+    networks:
+      - default
+    volumes:
+      - dragonfly-data:/data
+    # command: --default_lua_flags=allow-undeclared-keys,disable-atomicity
+    ulimits:
+      memlock: -1
+volumes:
+  dragonfly-data:

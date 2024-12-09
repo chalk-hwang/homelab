@@ -1,0 +1,17 @@
+version: '3'
+vars:
+  EXPORT_DIR: '/Volumes/PSSD X31 - Data/.Photos Library.photoslibrary-exports'
+tasks:
+  default:
+    cmds:
+      - task: export
+      - task: upload
+  export:
+    cmds:
+      - osxphotos export "{{.EXPORT_DIR}}" --load-config config.osxphotos.toml
+  upload:
+    cmds:
+      - immich upload "{{.EXPORT_DIR}}" --url "https://photos.{{.TS_DOMAIN}}" --key {{.IMMICH_API_KEY}} --concurrency 10 --recursive --album
+    vars:
+      IMMICH_API_KEY:
+        sh: op read "op://Private/ijxoe6e6mnmf6qtdsuljj5pe2u/api key"

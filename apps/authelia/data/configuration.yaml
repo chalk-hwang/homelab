@@ -1,0 +1,53 @@
+server:
+  address: 'tcp://:9091'
+# Note: Authelia vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
+authentication_backend:
+  ldap:
+    additional_groups_dn: OU=groups
+    additional_users_dn: OU=people
+    address: ldap://lldap:389
+    attributes:
+      distinguished_name: distinguishedName
+      group_name: cn
+      mail: mail
+      member_of: memberOf
+      username: uid
+    groups_filter: (member={dn})
+    implementation: custom
+    start_tls: false
+    timeout: 5s
+    # To allow sign in both with username and email, one can use a filter like
+    # (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+    users_filter: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+  password_reset:
+    disable: true
+  refresh_interval: 1m
+duo_api:
+  disable: true
+log:
+  level: info
+notifier:
+  disable_startup_check: true
+  smtp:
+    disable_require_tls: true
+session:
+  cookies:
+    - name: 'authelia_session'
+      domain: '${BASE_DOMAIN}' # Should match whatever your root protected domain is
+      authelia_url: 'https://auth.${BASE_DOMAIN}'
+      expiration: '1 hour'
+      inactivity: '5 minutes'
+  redis:
+    host: 'dragonfly'
+    port: 6379
+    database_index: 1
+totp:
+  disable: false
+  issuer: chalk-ho.me
+webauthn:
+  display_name: auth@chalk-ho.me
+storage:
+  postgres:
+    address: 'tcp://timescaledb:5432'
+    database: authelia
+    username: authelia

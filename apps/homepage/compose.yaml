@@ -1,0 +1,31 @@
+services:
+  # Homepage - Application Dashboard
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    profiles: ["apps", "all"]
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+      TZ: $TZ
+    networks:
+      - traefik
+      - default
+    #  - "$HOMEPAGE_PORT:3000"
+    volumes:
+      - $LOG_DIR/homepage:/app/logs
+      - $DATA_DIR/homepage:/app/config
+    restart: unless-stopped
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=homepage
+      - tsdproxy.container_port=3000
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.homepage-rtr.entrypoints=websecure
+      - traefik.http.routers.homepage-rtr.rule=Host(`$BASE_DOMAIN`) || Host(`www.$BASE_DOMAIN`)
+      - traefik.http.routers.homepage-rtr.middlewares=chain-authelia@file
+      - traefik.http.routers.homepage-rtr.service=homepage-svc
+      - traefik.http.services.homepage-svc.loadbalancer.server.port=3000

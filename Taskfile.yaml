@@ -1,0 +1,21 @@
+version: "3"
+vars:
+  LOG_DIR: "/home/chalk.linux/docker/logs"
+  DATA_DIR: "/home/chalk.linux/docker/data"
+  SECRETS_DIR: "/home/chalk.linux/docker/secrets"
+  APPS_DIR: "/home/chalk.linux/docker/apps"
+env:
+  DATA_DIR: "{{.DATA_DIR}}"
+  LOG_DIR: "{{.LOG_DIR}}"
+  SECRETS_DIR: "{{.SECRETS_DIR}}"
+dotenv: ["./.env"]
+includes:
+  compose:
+    taskfile: taskfiles/DockerCompose.yaml
+    aliases:
+      - docker-compose
+  photos-library:
+    taskfile: taskfiles/PhotoLibrary.yaml
+    aliases:
+      - photos-lib
+      - photos

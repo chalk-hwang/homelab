@@ -1,0 +1,9 @@
+http:
+  middlewares:
+    chain-basic-auth:
+      chain:
+        middlewares:
+          - rule-crowdsec-bouncer
+          - rule-rate-limit
+          - rule-secure-headers
+          - rule-basic-auth

@@ -1,0 +1,57 @@
+secrets:
+  lldap_database_url:
+    file: $SECRETS_DIR/lldap_database_url
+  lldap_jwt_secret:
+    file: $SECRETS_DIR/lldap_jwt_secret
+  lldap_key_seed:
+    file: $SECRETS_DIR/lldap_key_seed
+  lldap_ldap_user_pass:
+    file: $SECRETS_DIR/lldap_ldap_user_pass
+services:
+  lldap:
+    image: lldap/lldap:stable
+    container_name: lldap
+    profiles: ["auth", "core", "all"]
+    environment:
+      - UID=$PUID
+      - GID=$PGID
+      - TZ=Asia/Seoul
+      - LLDAP_LDAP_BASE_DN
+      - LLDAP_HTTP_URL=https://lldap-admin.$BASE_DOMAIN
+      - LLDAP_JWT_SECRET_FILE=/run/secrets/lldap_jwt_secret
+      - LLDAP_KEY_SEED_FILE=/run/secrets/lldap_key_seed
+      - LLDAP_LDAP_USER_PASS_FILE=/run/secrets/lldap_ldap_user_pass
+      - LLDAP_DATABASE_URL_FILE=/run/secrets/lldap_database_url
+    secrets:
+      - lldap_jwt_secret
+      - lldap_key_seed
+      - lldap_ldap_user_pass
+      - lldap_database_url
+    # Alternatively, you can mount a local folder
+    # - "./lldap_data:/data"
+    networks:
+      - traefik
+      - default
+    ports:
+      - "389:389"
+    volumes:
+      - ./lldap_config.toml:/data/lldap_config.toml
+      - $DATA_DIR/lldap:/data
+    depends_on:
+      - timescaledb
+    # For LDAPS (LDAP Over SSL), enable port if LLDAP_LDAPS_OPTIONS__ENABLED set true, look env below
+    #- "6360:6360"
+    # For the web front-end
+    # - "17170:17170"
+    restart: always
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=lldap-admin
+      - tsdproxy.container_port=17170
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.lldap-rtr.entrypoints=websecure
+      - traefik.http.routers.lldap-rtr.rule=Host(`lldap-admin.$BASE_DOMAIN`)
+      - traefik.http.routers.lldap-rtr.middlewares=chain-authelia@file
+      - traefik.http.routers.lldap-rtr.service=lldap-svc
+      - traefik.http.services.lldap-svc.loadbalancer.server.port=17170

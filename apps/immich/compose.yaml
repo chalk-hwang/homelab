@@ -1,0 +1,117 @@
+volumes:
+  # docker run \
+  #   --mount='type=volume,dst=/home/chalk.linux/docker/data/immich/upload,volume-driver=local,volume-opt=device=/dev/disk/by-label/lima-photos,volume-opt=type=ext4'
+  immich-upload:
+    driver: local
+    driver_opts:
+      device: /dev/disk/by-label/lima-photos
+      type: ext4
+  immich-machine-learning-cache:
+  immich-redis-data:
+secrets:
+  immich_database_url:
+    file: $SECRETS_DIR/immich_database_url
+services:
+  immich:
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    container_name: immich
+    profiles: ["apps", "all"]
+    environment:
+      - DB_URL_FILE=/run/secrets/immich_database_url
+      - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
+      - UPLOAD_LOCATION=immich-upload
+      - IMMICH_CONFIG_FILE
+      - IMMICH_VERSION
+      - IMMICH_LOG_LEVEL
+    secrets:
+      - immich_database_url
+    networks:
+      - traefik
+      - default
+    volumes:
+      # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
+      - immich-upload:/usr/src/app/upload
+      - $DATA_DIR/immich/config.json:/usr/src/app/config.json
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - immich-redis
+      - timescaledb
+    restart: always
+    healthcheck:
+      disable: false
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=photos
+      - tsdproxy.container_port=2283
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.immich-rtr.entrypoints=websecure
+      - traefik.http.routers.immich-rtr.rule=Host(`photos.$BASE_DOMAIN`)
+      - traefik.http.routers.immich-rtr.middlewares=chain-no-auth@file
+      - traefik.http.routers.immich-rtr.service=immich-svc
+      - traefik.http.services.immich-svc.loadbalancer.server.port=2283
+  immich-machine-learning:
+    # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
+    # Example tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    container_name: immich-machine-learning
+    profiles: ["apps", "all"]
+    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    environment:
+      - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
+      - UPLOAD_LOCATION=immich-upload
+      - IMMICH_CONFIG_FILE
+      - IMMICH_VERSION
+      - IMMICH_LOG_LEVEL
+    networks:
+      - default
+    volumes:
+      - immich-machine-learning-cache:/cache
+    restart: always
+    healthcheck:
+      disable: false
+  immich-redis:
+    image: docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
+    container_name: immich-redis
+    profiles: ["apps", "all"]
+    networks:
+      - default
+    restart: always
+    healthcheck:
+      test: redis-cli ping || exit 1
+      #   container_name: immich
+      #   depends_on:
+      #   - immich-redis
+      #   - timescaledb
+      #   environment:
+      #   - PUID=1000
+      #   - PGID=1000
+      #   - DB_HOSTNAME=timescaledb
+      #   - DB_USERNAME=immich
+      #   - DB_PASSWORD
+      #   - DB_DATABASE_NAME=immich
+      #   - DB_PORT=5432 #optional
+      #   - REDIS_HOSTNAME=immich-redis
+      #   - REDIS_PORT=6379 #optionalv
+      #   - REDIS_PASSWORD=
+      #   - MACHINE_LEARNING_HOST=0.0.0.0 #optional
+      #   - MACHINE_LEARNING_PORT=3003 #optional
+      #   - MACHINE_LEARNING_WORKERS=1 #optional
+      #   - MACHINE_LEARNING_WORKER_TIMEOUT=120 #optionals
+      #   - IMMICH_CONFIG_FILE=/config/immich.json
+      #   volumes:
+      #   - ./config:/config
+      #   - $DATA_DIR/immich/data:/photos
+      #   - $DATA_DIR/immich/libraries:/libraries #optional
+      #   restart: unless-stopped
+      #   env_file:
+      #   - .env
+      #   networks:
+      #   - traefik
+      #   - default  # immich:
+      #   image: ghcr.io/imagegenius/immich:latest

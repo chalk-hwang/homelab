@@ -1,0 +1,94 @@
+services:
+  authelia:
+    image: authelia/authelia:4.38.17
+    container_name: authelia
+    profiles: ["auth", "core", "all"]
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - /etc/localtime:/etc/localtime:ro
+      - BASE_DOMAIN
+      - TS_DOMAIN
+      - PUID=$PUID
+      - PGID=$PGID
+      - AUTHELIA_NOTIFIER_SMTP_ADDRESS
+      - AUTHELIA_NOTIFIER_SMTP_SENDER
+      - AUTHELIA_NOTIFIER_SMTP_USERNAME
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_BASE_DN
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/authelia_identity_validation_reset_password_jwt_secret
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/authelia_session_secret
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/authelia_storage_encryption_key
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=/run/secrets/authelia_authentication_backend_ldap_password
+      - AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE=/run/secrets/authelia_storage_postgres_password
+      - AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE=/run/secrets/authelia_identity_providers_oidc_hmac_secret
+      - AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE=/run/secrets/authelia_notifier_smtp_password
+      - X_AUTHELIA_CONFIG_FILTERS=expand-env,template
+      - X_AUTHELIA_CONFIG=/config/configuration.yml,/config/configuration.acl.yml,/config/configuration.oidc.yml
+    secrets:
+      - authelia_authentication_backend_ldap_password
+      - authelia_identity_validation_reset_password_jwt_secret
+      - authelia_session_secret
+      - authelia_storage_encryption_key
+      - authelia_storage_postgres_password
+      - authelia_identity_providers_oidc_hmac_secret
+      - authelia_notifier_smtp_password
+      - authelia_identity_providers_oidc_jwks_key
+      - oidc_tailscale_client_secret
+      - oidc_immich_client_secret
+      - oidc_portainer_client_secret
+    networks:
+      - traefik
+      - default
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./data/configuration.yaml:/config/configuration.yml
+      - ./data/configuration.acl.yaml:/config/configuration.acl.yml
+      - ./data/configuration.oidc.yaml:/config/configuration.oidc.yml
+    depends_on:
+      - dragonfly
+      - timescaledb
+      - traefik
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.authelia-rtr.entrypoints=websecure
+      - traefik.http.routers.authelia-rtr.rule=Host(`auth.$BASE_DOMAIN`)
+      - traefik.http.routers.authelia-rtr.middlewares=chain-no-auth@file
+      - traefik.http.routers.authelia-rtr.service=authelia-svc
+      - traefik.http.services.authelia-svc.loadbalancer.server.port=9091
+      - traefik.constraint=proxy-public
+      # authelia-redis:
+      #   image: docker.io/redis:6.2.16-alpine
+      #   container_name: authelia-redis
+      #   profiles: ["auth", "core", "all"]
+      #   networks:
+      #     - default
+      #   restart: always
+      #   healthcheck:
+      #     test: redis-cli ping || exit 1
+secrets:
+  authelia_authentication_backend_ldap_password:
+    file: $SECRETS_DIR/authelia_authentication_backend_ldap_password
+  authelia_identity_validation_reset_password_jwt_secret:
+    file: $SECRETS_DIR/authelia_identity_validation_reset_password_jwt_secret
+  authelia_session_secret:
+    file: $SECRETS_DIR/authelia_session_secret
+  authelia_storage_encryption_key:
+    file: $SECRETS_DIR/authelia_storage_encryption_key
+  authelia_storage_postgres_password:
+    file: $SECRETS_DIR/authelia_storage_postgres_password
+  authelia_identity_providers_oidc_hmac_secret:
+    file: $SECRETS_DIR/authelia_identity_providers_oidc_hmac_secret
+  authelia_notifier_smtp_password:
+    file: $SECRETS_DIR/authelia_notifier_smtp_password
+  authelia_identity_providers_oidc_jwks_key:
+    file: $SECRETS_DIR/authelia_identity_providers_oidc_jwks_key
+  oidc_tailscale_client_secret:
+    file: $SECRETS_DIR/oidc_tailscale_client_secret
+  oidc_immich_client_secret:
+    file: $SECRETS_DIR/oidc_immich_client_secret
+  oidc_portainer_client_secret:
+    file: $SECRETS_DIR/oidc_portainer_client_secret

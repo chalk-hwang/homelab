@@ -1,0 +1,5 @@
+formatter:
+  type: basic
+  indentless_arrays: false
+  include_document_start: false
+  drop_merge_tag: true

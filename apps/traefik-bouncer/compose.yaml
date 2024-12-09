@@ -1,0 +1,16 @@
+services:
+  # CrowdSec Bouncer - Traefik
+  traefik-bouncer:
+    image: fbonalair/traefik-crowdsec-bouncer
+    container_name: traefik-bouncer
+    profiles: [core, all]
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - CROWDSEC_AGENT_HOST=crowdsec:8080
+      - CROWDSEC_BOUNCER_API_KEY=nVd2LyZT/oFTaPRUUbHKByuTxYB3+BJoTx5zK/isOWw
+      - GIN_MODE=release
+    networks:
+      - traefik
+      - default
+    restart: unless-stopped

@@ -1,0 +1,21 @@
+volumes:
+  tsdproxy-data:
+secrets:
+  tsdproxy_tailscale_authkey:
+    file: $SECRETS_DIR/tsdproxy_tailscale_authkey
+#     - TS_ROUTES=10.2.0.0/16
+#     network_mode: host
+services:
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
+    profiles: ["base"]
+    privileged: true
+    secrets:
+      - tsdproxy_tailscale_authkey
+    networks:
+      - default
+    volumes:
+      - $DATA_DIR/tsdproxy:/data
+      - ./config:/config
+    restart: unless-stopped

@@ -1,0 +1,35 @@
+services:
+  traefik-cloudflare-companion:
+    image: ghcr.io/tiredofit/docker-traefik-cloudflare-companion:latest
+    container_name: traefik-cloudflare-companion
+    profiles: ["core", "all"]
+    environment:
+      - TIMEZONE=Asia/Seoul
+      - LOG_TYPE=CONSOLE
+      - LOG_LEVEL=INFO
+      - TRAEFIK_VERSION=2
+      - RC_TYPE=CNAME
+      - TARGET_DOMAIN=tunnel.$BASE_DOMAIN
+      - REFRESH_ENTRIES=TRUE
+      - DOCKER_HOST=tcp://docker-proxy:2375
+      - ENABLE_TRAEFIK_POLL=TRUE
+      - TRAEFIK_POLL_URL=https://traefik.$BASE_DOMAIN/api
+      - TRAEFIK_FILTER_LABEL=traefik.constraint
+      - TRAEFIK_FILTER=proxy-public
+      - DOMAIN1=$BASE_DOMAIN
+      - DOMAIN1_ZONE_ID=$ZONE_ID
+      - DOMAIN1_PROXIED=TRUE
+      - CF_TOKEN_FILE=/run/secrets/traefik_cloudflare_dns_api_token
+    secrets:
+      - traefik_cloudflare_dns_api_token
+    networks:
+      - default
+    # traefik.http.routers.ping.rule: Host(`traefik.$BASE_DOMAIN`) && Path(`/ping`)
+    # traefik.http.routers.ping.service: ping@internal
+    depends_on:
+      - traefik
+      - docker-proxy
+    restart: always
+secrets:
+  traefik_cloudflare_dns_api_token:
+    file: $SECRETS_DIR/traefik_cloudflare_dns_api_token

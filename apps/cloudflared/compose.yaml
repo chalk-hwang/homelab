@@ -1,0 +1,23 @@
+services:
+  # Cloudflared - Cloudflare Tunnel
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    profiles: ["core", "all"]
+    networks:
+      - external
+      - traefik
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config.yaml:/config.yaml:ro
+      - ./secrets:/etc/cloudflared:ro
+    # security_opt:
+    # - no-new-privileges:true
+    restart: unless-stopped
+    command: tunnel --config /config.yaml run
+    healthcheck:
+      test: ["CMD", "cloudflared", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

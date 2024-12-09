@@ -1,0 +1,15 @@
+version: "3"
+tasks:
+  down:
+    cmds:
+      - docker compose --env-file .env -f "compose.yaml" --profile all down --remove-orphans
+  up:
+    cmds:
+      - docker compose --env-file .env -f "compose.yaml" --profile all up --build -d --remove-orphans
+  up-base:
+    cmds:
+      - docker compose --env-file .env -f "compose.yaml" --profile base up --build -d --remove-orphans
+      # vars:
+# PROFILE_NAME: "{{index .MATCH 0}}"
+
+# vars:

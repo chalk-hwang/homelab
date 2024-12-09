@@ -1,0 +1,34 @@
+# trunk-ignore-all(composefmt)
+networks:
+  default:
+    external: true
+    name: $DEFAULT_BRIDGE
+  external:
+    external: true
+    name: $EXTERNAL_BRIDGE
+  traefik:
+    external: true
+    name: $TRAEFIK_BRIDGE
+include:
+  - apps/authelia/compose.yaml
+  # - apps/smtp-relay/compose.yaml
+  - apps/tsdproxy/compose.yaml
+  - apps/carpal/compose.yaml
+  - apps/crowdsec/compose.yaml
+  - apps/dragonfly/compose.yaml
+  - apps/pgadmin/compose.yaml
+  - apps/lldap/compose.yaml
+  - apps/cloudflared/compose.yaml
+  - apps/docker-proxy/compose.yaml
+  - apps/traefik/compose.yaml
+  - apps/traefik-cloudflare-companion/compose.yaml
+  - apps/traefik-bouncer/compose.yaml
+  - apps/error-pages/compose.yaml
+  - apps/timescaledb/compose.yaml
+  - apps/immich/compose.yaml
+  - apps/emqx/compose.yaml
+  - apps/zigbee2mqtt/compose.yaml
+  - apps/homeassistant/compose.yaml
+  - apps/homepage/compose.yaml
+  - apps/portainer/compose.yaml
+  # - apps/exitnode/compose.yam

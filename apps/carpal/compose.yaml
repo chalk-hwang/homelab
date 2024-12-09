@@ -1,0 +1,22 @@
+services:
+  carpal:
+    image: peeley/carpal:latest
+    container_name: carpal
+    profiles: ["auth", "core", "all"]
+    environment:
+      - CONFIG_FILE=/etc/carpal/config.yaml
+    networks:
+      - traefik
+      - default
+    volumes:
+      - ./config:/etc/carpal
+    depends_on:
+      - lldap
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.carpal-rtr.entrypoints=websecure
+      - traefik.http.routers.carpal-rtr.rule=Host(`$BASE_DOMAIN`) && PathPrefix(`/.well-known/webfinger`)
+      - traefik.http.routers.carpal-rtr.service=carpal-svc
+      - traefik.http.services.carpal-svc.loadbalancer.server.port=8008
+      - traefik.http.routers.carpal-rtr.middlewares=chain-no-auth@file

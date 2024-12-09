@@ -1,0 +1,29 @@
+volumes:
+  timescaledb-data: null
+secrets:
+  timescaledb_postgres_password:
+    file: $SECRETS_DIR/timescaledb_postgres_password
+services:
+  timescaledb:
+    image: docker.io/timescale/timescaledb-ha@sha256:f0290bd047fc5783f58fd3ad2ff6509908ea4d401feb1f7fd82605df8a6e0d23
+    container_name: timescaledb
+    profiles: ["core", "all"]
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD_FILE=/run/secrets/timescaledb_postgres_password
+    secrets:
+      - timescaledb_postgres_password
+    networks:
+      default:
+        ipv4_address: 10.2.0.11
+    ports:
+      - 0.0.0.0:5432:5432
+    volumes:
+      # Do not edit the next line. If you want to change the database storage location on your system, edit the value of x in the .env file
+      - $DATA_DIR/timescaledb:/home/postgres/pgdata/data
+    restart: always
+    labels:
+      tsdproxy.container_port: 5432
+      tsdproxy.enable: "true"
+      tsdproxy.name: timescaledb

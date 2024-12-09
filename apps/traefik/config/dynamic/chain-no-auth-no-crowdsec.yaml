@@ -1,0 +1,7 @@
+http:
+  middlewares:
+    chain-no-auth-no-crowdsec:
+      chain:
+        middlewares:
+          - rule-rate-limit
+          - rule-secure-headers

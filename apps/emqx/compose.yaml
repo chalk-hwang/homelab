@@ -1,0 +1,49 @@
+volumes:
+  emqx-data: null
+  emqx-log: null
+secrets:
+  emqx_auth_db_password:
+    file: $SECRETS_DIR/emqx_auth_db_password
+services:
+  emqx:
+    image: emqx:5.8.3
+    container_name: emqx
+    profiles: ["apps", "all"]
+    environment:
+      - EMQX_NODE__COOKIE=emqx-cookie
+      - EMQX_NODE__NAME=emqx@emqx.$BASE_DOMAIN
+      - EMQX_DASHBOARD__DEFAULT_PASSWORD
+    secrets:
+      - emqx_auth_db_password
+    networks:
+      default:
+        aliases:
+          - emqx.$BASE_DOMAIN
+        ipv4_address: 10.2.0.21
+      traefik:
+    ports:
+      - 1883:1883
+    volumes:
+      - emqx-data:/opt/emqx/data
+      - ./authz/acl.conf:/opt/emqx/data/authz/acl.conf
+      - ./configs/cluster.hocon:/opt/emqx/data/configs/cluster.hocon
+      - emqx-log:/opt/emqx/log
+    depends_on:
+      - timescaledb
+    restart: unless-stopped
+    healthcheck:
+      interval: 5s
+      retries: 5
+      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      timeout: 25s
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=emqx
+      - tsdproxy.container_port=18083
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.emqx-rtr.entrypoints=websecure
+      - traefik.http.routers.emqx-rtr.rule=Host(`emqx.$BASE_DOMAIN`)
+      - traefik.http.routers.emqx-rtr.middlewares=chain-authelia@file
+      - traefik.http.routers.emqx-rtr.service=emqx-svc
+      - traefik.http.services.emqx-svc.loadbalancer.server.port=18083

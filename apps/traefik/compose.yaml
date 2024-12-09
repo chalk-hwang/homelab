@@ -1,0 +1,93 @@
+secrets:
+  traefik_basic_auth_credentials:
+    file: $SECRETS_DIR/traefik_basic_auth_credentials
+  traefik_cloudflare_dns_api_token:
+    file: $SECRETS_DIR/traefik_cloudflare_dns_api_token
+services:
+  traefik:
+    image: traefik:3.2
+    container_name: traefik
+    profiles: ["http", "core", "all"]
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - HTPASSWD_FILE=/run/secrets/traefik_basic_auth_credentials
+      - CLOUDFLARE_DNS_API_TOKEN_FILE=/run/secrets/traefik_cloudflare_dns_api_token
+      - BASE_DOMAIN=$BASE_DOMAIN
+      - TRAEFIK_BRIDGE=$TRAEFIK_BRIDGE
+    secrets:
+      - traefik_basic_auth_credentials
+      - traefik_cloudflare_dns_api_token
+    networks:
+      default: null
+      traefik:
+        ipv4_address: 10.2.4.254
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml
+      - ./config/dynamic:/config/dynamic:ro
+      - $DATA_DIR/traefik/acme.json:/acme.json
+      - $LOG_DIR/traefik:/logs
+    depends_on:
+      docker-proxy:
+        condition: service_started
+      error-pages:
+        condition: service_healthy
+        restart: true
+    restart: unless-stopped
+    healthcheck:
+      interval: 5s
+      retries: 3
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - traefik.http.routers.traefik-rtr.entrypoints=websecure
+      - traefik.http.routers.traefik-rtr.rule=Host(`traefik.$BASE_DOMAIN`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.traefik-rtr.service=api@internal
+      - traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file
+  # Traefik Access Log (access.log) for Dozzle
+  traefik-access-log:
+    image: alpine
+    container_name: traefik-access-log
+    profiles: ["http", "core", "all"]
+    network_mode: none
+    volumes:
+      - $LOG_DIR/traefik/access.log:/var/log/stream.log:ro
+    depends_on:
+      - traefik
+    restart: unless-stopped
+    command:
+      - tail
+      - "-f"
+      - /var/log/stream.log
+  traefik-error-log:
+    image: alpine
+    container_name: traefik-error-log
+    profiles: ["http", "core", "all"]
+    network_mode: none
+    volumes:
+      - $LOG_DIR/traefik/traefik.log:/var/log/stream.log:ro
+    depends_on:
+      - traefik
+    restart: unless-stopped
+    command:
+      - tail
+      - "-f"
+      - /var/log/stream.log
+  traefik-whoami:
+    image: traefik/whoami:latest
+    container_name: traefik-whoami
+    profiles: ["http", "apps", "all"]
+    labels:
+      # Traefik routing to this service
+      - "traefik.enable=true"
+      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - "traefik.http.routers.traefik-whoami-rtr.rule=Host(`myip.$BASE_DOMAIN`)"
+      - "traefik.http.routers.traefik-whoami-rtr.entrypoints=websecure"
+      - traefik.http.services.traefik-whoami-svc.loadbalancer.server.port=80
+      - traefik.http.routers.traefik-whoami-rtr.service=traefik-whoami-svc
+      - traefik.http.routers.traefik-whoami-rtr.middlewares=chain-no-auth@file

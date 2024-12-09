@@ -1,0 +1,49 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "trunk.io",
+  "[yaml]": {
+    "editor.defaultFormatter": "trunk.io"
+  },
+  "yaml.yamlVersion": "1.2",
+  "yaml.format.enable": true,
+  "yaml.validate": true,
+  "yaml.format.bracketSpacing": false,
+  // "[yaml]": {
+  //   "editor.tabSize": 2,
+  //   "editor.formatOnType": true
+  // },
+  "vscode-yaml-sort.customSortKeywords_1": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec",
+    "data"
+  ],
+  "files.associations": {
+    "**/homeassistant/**/*.yaml": "home-assistant"
+  },
+  // "[dockercompose]": {
+  //   "editor.insertSpaces": true,
+  //   "editor.tabSize": 2,
+  //   "editor.autoIndent": "advanced",
+  //   "editor.defaultFormatter": "bluebrown.yamlfmt",
+  //   "editor.quickSuggestions": {
+  //     "other": true,
+  //     "comments": false,
+  //     "strings": true
+  //   }
+  // },
+  "yaml.schemas": {
+    "https://taskfile.dev/schema.json": [
+      "**/Taskfile.yml",
+      "**/Taskfile.yaml",
+      "**/taskfiles/*.yaml"
+    ],
+    "https://json.schemastore.org/traefik-v2-file-provider.json": [
+      "apps/traefik/config/dynamic/*.yaml"
+    ],
+    "https://json.schemastore.org/traefik-v3.json": [
+      "apps/traefik/config/traefik.yaml"
+    ]
+  }
+}

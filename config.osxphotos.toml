@@ -1,0 +1,28 @@
+[export]
+album_keyword = true
+directory = "{folder_album}"
+download_missing = true
+edited_suffix = "_EDIT"
+exiftool = false
+exiftool_merge_keywords = true
+exiftool_merge_persons = true
+favorite_rating = true
+filename_template = "{original_name}"
+finder_tag_keywords = false
+fix_orientation = true
+person_keyword = true
+# post_command = [
+#   [
+#     "exported",
+#     "mv {filepath|shell_quote} {shell_quote,{filepath.parent}/{filepath.stem}{filepath.suffix|upper}}",
+#   ],
+#   [
+#     "sidecar_xmp_written",
+#     "mv {filepath|shell_quote} {shell_quote,{filepath.parent}/{filepath.stem|upper}{filepath.suffix}}",
+#   ],
+# ]
+sidecar = ["xmp"]
+strip = true
+touch_file = true
+update = true
+verbose = false
