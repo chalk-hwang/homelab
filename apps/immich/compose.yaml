@@ -39,6 +39,8 @@ services:
       - immich-redis
       - timescaledb
     restart: always
+    ports:
+      - 2283:2283
     healthcheck:
       disable: false
     labels:
