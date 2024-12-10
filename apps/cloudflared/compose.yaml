@@ -12,7 +12,7 @@ services:
       - PGID
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $DATA_DIR/cloudflared:/etc/cloudflared
+      - $DATADIR/cloudflared:/etc/cloudflared
     restart: unless-stopped
     command: tunnel --config /etc/cloudflared/config.yaml run
     healthcheck:

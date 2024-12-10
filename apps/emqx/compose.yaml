@@ -3,7 +3,7 @@ volumes:
   emqx-log:
 secrets:
   emqx_auth_db_password:
-    file: $SECRETS_DIR/emqx_auth_db_password
+    file: $SECRETSDIR/emqx_auth_db_password
 services:
   emqx:
     image: emqx:5.8.3
@@ -26,10 +26,10 @@ services:
     ports:
       - 1883:1883
     volumes:
-      - $DATA_DIR/emqx:/opt/emqx/data
-      # - $DATA_DIR/emqx/authz/acl.conf:/opt/emqx/data/authz/acl.conf
-      # - $DATA_DIR/emqx/configs/cluster.hocon:/opt/emqx/data/configs/cluster.hocon
-      - $LOG_DIR/emqx:/opt/emqx/log
+      - $DATADIR/emqx:/opt/emqx/data
+      # - $DATADIR/emqx/authz/acl.conf:/opt/emqx/data/authz/acl.conf
+      # - $DATADIR/emqx/configs/cluster.hocon:/opt/emqx/data/configs/cluster.hocon
+      - $LOGDIR/emqx:/opt/emqx/log
     depends_on:
       - timescaledb
     restart: unless-stopped

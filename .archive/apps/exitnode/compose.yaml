@@ -15,7 +15,7 @@ services:
     networks:
       - default
     volumes:
-      - "$DATA_DIR/exitnode/tailscale/state:/var/lib/tailscale"
+      - "$DATADIR/exitnode/tailscale/state:/var/lib/tailscale"
       - "./scripts:/scripts"
     devices:
       - /dev/net/tun:/dev/net/tun

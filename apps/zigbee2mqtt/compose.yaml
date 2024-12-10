@@ -11,8 +11,8 @@ services:
       - traefik
       - default
     volumes:
-      - $DATA_DIR/zigbee2mqtt:/app/data
-      - $LOG_DIR/zigbee2mqtt:/app/log
+      - $DATADIR/zigbee2mqtt:/app/data
+      - $LOGDIR/zigbee2mqtt:/app/log
     depends_on:
       - emqx
     restart: unless-stopped

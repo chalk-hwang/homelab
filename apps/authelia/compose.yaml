@@ -44,9 +44,9 @@ services:
     ports:
       - "9091:9091"
     volumes:
-      - $DATA_DIR/authelia/configuration.yaml:/config/configuration.yml
-      - $DATA_DIR/authelia/configuration.acl.yaml:/config/configuration.acl.yml
-      - $DATA_DIR/authelia/configuration.oidc.yaml:/config/configuration.oidc.yml
+      - $DATADIR/authelia/configuration.yaml:/config/configuration.yml
+      - $DATADIR/authelia/configuration.acl.yaml:/config/configuration.acl.yml
+      - $DATADIR/authelia/configuration.oidc.yaml:/config/configuration.oidc.yml
     depends_on:
       - dragonfly
       - timescaledb
@@ -72,26 +72,26 @@ services:
       #     test: redis-cli ping || exit 1
 secrets:
   authelia_authentication_backend_ldap_password:
-    file: $SECRETS_DIR/authelia_authentication_backend_ldap_password
+    file: $SECRETSDIR/authelia_authentication_backend_ldap_password
   authelia_identity_validation_reset_password_jwt_secret:
-    file: $SECRETS_DIR/authelia_identity_validation_reset_password_jwt_secret
+    file: $SECRETSDIR/authelia_identity_validation_reset_password_jwt_secret
   authelia_session_secret:
-    file: $SECRETS_DIR/authelia_session_secret
+    file: $SECRETSDIR/authelia_session_secret
   authelia_storage_encryption_key:
-    file: $SECRETS_DIR/authelia_storage_encryption_key
+    file: $SECRETSDIR/authelia_storage_encryption_key
   authelia_storage_postgres_password:
-    file: $SECRETS_DIR/authelia_storage_postgres_password
+    file: $SECRETSDIR/authelia_storage_postgres_password
   authelia_identity_providers_oidc_hmac_secret:
-    file: $SECRETS_DIR/authelia_identity_providers_oidc_hmac_secret
+    file: $SECRETSDIR/authelia_identity_providers_oidc_hmac_secret
   authelia_notifier_smtp_password:
-    file: $SECRETS_DIR/authelia_notifier_smtp_password
+    file: $SECRETSDIR/authelia_notifier_smtp_password
   authelia_identity_providers_oidc_jwks_key:
-    file: $SECRETS_DIR/authelia_identity_providers_oidc_jwks_key
+    file: $SECRETSDIR/authelia_identity_providers_oidc_jwks_key
   oidc_tailscale_client_secret:
-    file: $SECRETS_DIR/oidc_tailscale_client_secret
+    file: $SECRETSDIR/oidc_tailscale_client_secret
   oidc_immich_client_secret:
-    file: $SECRETS_DIR/oidc_immich_client_secret
+    file: $SECRETSDIR/oidc_immich_client_secret
   oidc_portainer_client_secret:
-    file: $SECRETS_DIR/oidc_portainer_client_secret
+    file: $SECRETSDIR/oidc_portainer_client_secret
   oidc_pgadmin_client_secret:
-    file: $SECRETS_DIR/oidc_pgadmin_client_secret
+    file: $SECRETSDIR/oidc_pgadmin_client_secret

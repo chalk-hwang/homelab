@@ -14,7 +14,7 @@ services:
     #   - "$PGADMIN_PORT:80"
     volumes:
       - pgadmin-workdir:/var/lib/pgadmin
-      - $DATA_DIR/pgadmin/config_local.py:/pgadmin4/config_local.py
+      - $DATADIR/pgadmin/config_local.py:/pgadmin4/config_local.py
     restart: unless-stopped
     labels:
       - "tsdproxy.enable=true"

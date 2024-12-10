@@ -10,7 +10,7 @@ volumes:
   immich-redis-data:
 secrets:
   immich_database_url:
-    file: $SECRETS_DIR/immich_database_url
+    file: $SECRETSDIR/immich_database_url
 services:
   immich:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
@@ -33,7 +33,7 @@ services:
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - immich-upload:/usr/src/app/upload
-      - $DATA_DIR/immich/config.json:/usr/src/app/config.json
+      - $DATADIR/immich/config.json:/usr/src/app/config.json
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - immich-redis
@@ -113,8 +113,8 @@ services:
       #   - IMMICH_CONFIG_FILE=/config/immich.json
       #   volumes:
       #   - ./config:/config
-      #   - $DATA_DIR/immich/data:/photos
-      #   - $DATA_DIR/immich/libraries:/libraries #optional
+      #   - $DATADIR/immich/data:/photos
+      #   - $DATADIR/immich/libraries:/libraries #optional
       #   restart: unless-stopped
       #   env_file:
       #   - .env

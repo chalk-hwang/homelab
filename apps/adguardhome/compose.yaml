@@ -16,8 +16,8 @@ services:
       - 0.0.0.0:5443:5443/tcp
       - 0.0.0.0:5443:5443/udp
     volumes:
-      - $DATA_DIR/adguardhome/conf:/opt/adguardhome/conf
-      - $DATA_DIR/adguardhome/work:/opt/adguardhome/work
+      - $DATADIR/adguardhome/conf:/opt/adguardhome/conf
+      - $DATADIR/adguardhome/work:/opt/adguardhome/work
     restart: unless-stopped
     labels:
       - traefik.enable=true
