@@ -23,7 +23,3 @@ services:
       # Do not edit the next line. If you want to change the database storage location on your system, edit the value of x in the .env file
       - $DATA_DIR/timescaledb:/home/postgres/pgdata/data
     restart: always
-    labels:
-      tsdproxy.container_port: 5432
-      tsdproxy.enable: "true"
-      tsdproxy.name: timescaledb

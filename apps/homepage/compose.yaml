@@ -22,6 +22,7 @@ services:
       - tsdproxy.enable=true
       - tsdproxy.name=homepage
       - tsdproxy.container_port=3000
+      - "tsdproxy.ephemeral=true"
       - traefik.enable=true
       - traefik.docker.network=$TRAEFIK_BRIDGE
       - traefik.http.routers.homepage-rtr.entrypoints=websecure

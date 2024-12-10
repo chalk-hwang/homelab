@@ -43,12 +43,12 @@ services:
       retries: 3
       test: ["CMD", "traefik", "healthcheck", "--ping"]
     labels:
-      - traefik.enable=true
-      - traefik.docker.network=$TRAEFIK_BRIDGE
-      - traefik.http.routers.traefik-rtr.entrypoints=websecure
-      - traefik.http.routers.traefik-rtr.rule=Host(`traefik.$BASE_DOMAIN`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
-      - traefik.http.routers.traefik-rtr.service=api@internal
-      - traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file
+      - "traefik.enable=true"
+      - "traefik.docker.network=$TRAEFIK_BRIDGE"
+      - "traefik.http.routers.traefik-rtr.entrypoints=websecure"
+      - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$BASE_DOMAIN`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik-rtr.service=api@internal"
+      - "traefik.http.routers.traefik-rtr.middlewares=chain-no-auth@file"
   # Traefik Access Log (access.log) for Dozzle
   traefik-access-log:
     image: alpine
@@ -85,11 +85,15 @@ services:
     networks:
       - traefik
     labels:
+      - "tsdproxy.enable=true"
+      - "tsdproxy.name=myip"
+      - "tsdproxy.container_port=80"
+      - "tsdproxy.ephemeral=true"
       # Traefik routing to this service
       - "traefik.enable=true"
-      - traefik.docker.network=$TRAEFIK_BRIDGE
+      - "traefik.docker.network=$TRAEFIK_BRIDGE"
       - "traefik.http.routers.traefik-whoami-rtr.rule=Host(`myip.$BASE_DOMAIN`)"
       - "traefik.http.routers.traefik-whoami-rtr.entrypoints=websecure"
-      - traefik.http.services.traefik-whoami-svc.loadbalancer.server.port=80
-      - traefik.http.routers.traefik-whoami-rtr.service=traefik-whoami-svc
-      - traefik.http.routers.traefik-whoami-rtr.middlewares=chain-no-auth@file
+      - "traefik.http.services.traefik-whoami-svc.loadbalancer.server.port=80"
+      - "traefik.http.routers.traefik-whoami-rtr.service=traefik-whoami-svc"
+      - "traefik.http.routers.traefik-whoami-rtr.middlewares=chain-no-auth@file"

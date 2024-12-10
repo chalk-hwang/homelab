@@ -20,3 +20,7 @@ services:
       - tsdproxy-data:/data
       - $DATA_DIR/tsdproxy:/config
     restart: unless-stopped
+    labels:
+      - "tsdproxy.enable=true"
+      - "tsdproxy.name=dashboard"
+      - "tsdproxy.ephemeral=true"

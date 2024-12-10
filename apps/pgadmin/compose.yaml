@@ -19,6 +19,7 @@ services:
       - "tsdproxy.enable=true"
       - "tsdproxy.name=pgadmin"
       - "tsdproxy.container_port=80"
+      - "tsdproxy.ephemeral=true"
       - "traefik.enable=true"
       - "traefik.docker.network=$TRAEFIK_BRIDGE"
       # HTTP Routers

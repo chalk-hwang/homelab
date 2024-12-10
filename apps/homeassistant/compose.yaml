@@ -32,3 +32,4 @@ services:
       - tsdproxy.enable=true
       - tsdproxy.name=hass
       - tsdproxy.container_port=8123
+      - tsdproxy.ephemeral=true

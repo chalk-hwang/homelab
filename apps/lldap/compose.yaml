@@ -45,15 +45,16 @@ services:
     # - "17170:17170"
     restart: always
     labels:
-      - tsdproxy.enable=true
-      - tsdproxy.name=lldap-admin
-      - tsdproxy.container_port=17170
-      - traefik.enable=true
-      - traefik.docker.network=$TRAEFIK_BRIDGE
-      - traefik.http.routers.lldap-rtr.entrypoints=websecure
-      - traefik.http.routers.lldap-rtr.rule=Host(`lldap-admin.$BASE_DOMAIN`)
-      - traefik.http.routers.lldap-rtr.middlewares=chain-authelia@file
-      - traefik.http.routers.lldap-rtr.service=lldap-svc
-      - traefik.http.services.lldap-svc.loadbalancer.server.port=17170
+      - "tsdproxy.enable=true"
+      - "tsdproxy.name=lldap-admin"
+      - "tsdproxy.container_port=17170"
+      - "tsdproxy.ephemeral=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=$TRAEFIK_BRIDGE"
+      - "traefik.http.routers.lldap-rtr.entrypoints=websecure"
+      - "traefik.http.routers.lldap-rtr.rule=Host(`lldap-admin.$BASE_DOMAIN`)"
+      - "traefik.http.routers.lldap-rtr.middlewares=chain-authelia@file"
+      - "traefik.http.routers.lldap-rtr.service=lldap-svc"
+      - "traefik.http.services.lldap-svc.loadbalancer.server.port=17170"
 volumes:
   lldap-data:

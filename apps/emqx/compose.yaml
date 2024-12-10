@@ -40,6 +40,7 @@ services:
       - tsdproxy.enable=true
       - tsdproxy.name=emqx
       - tsdproxy.container_port=18083
+      - "tsdproxy.ephemeral=true"
       - traefik.enable=true
       - traefik.docker.network=$TRAEFIK_BRIDGE
       - traefik.http.routers.emqx-rtr.entrypoints=websecure
