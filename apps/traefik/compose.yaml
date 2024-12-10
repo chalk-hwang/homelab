@@ -82,6 +82,8 @@ services:
     image: traefik/whoami:latest
     container_name: traefik-whoami
     profiles: ["http", "apps", "all"]
+    networks:
+      - traefik
     labels:
       # Traefik routing to this service
       - "traefik.enable=true"
