@@ -10,8 +10,8 @@ services:
       - NET_BIND_SERVICE
       - SYS_ADMIN
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID
+      - PGID
     network_mode: host
     volumes:
       # Local path where your home assistant config will be stored

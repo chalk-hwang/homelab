@@ -17,6 +17,8 @@ services:
     container_name: immich
     profiles: ["apps", "all"]
     environment:
+      - PUID
+      - PGID
       - DB_URL_FILE=/run/secrets/immich_database_url
       - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
       - UPLOAD_LOCATION=immich-upload

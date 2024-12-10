@@ -11,6 +11,8 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
+      - PUID
+      - PGID
       - HTPASSWD_FILE=/run/secrets/traefik_basic_auth_credentials
       - CLOUDFLARE_DNS_API_TOKEN_FILE=/run/secrets/traefik_cloudflare_dns_api_token
       - BASE_DOMAIN=$BASE_DOMAIN

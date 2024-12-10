@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "Flux Cluster Template",
+  "image": "ghcr.io/chalk-hwang/homelab/devcontainer:base",
+  "postCreateCommand": {
+    "setup": "bash ${containerWorkspaceFolder}/.devcontainer/setup.sh"
+  },
+  "postStartCommand": {
+    "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+
+    "tailscale": "tailscale up --accept-routes --accept-dns --advertise-tags=tag:devcontainer --auth-key=${TS_OAUTH_CLIENT_SECRET}?ephemeral=true&preauthorized=false"
+  },
+  "features": {},
+  "runArgs": ["--device=/dev/net/tun"]
+}

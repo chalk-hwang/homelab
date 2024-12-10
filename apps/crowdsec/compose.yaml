@@ -10,7 +10,7 @@ services:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables crowdsecurity/linux
       CUSTOM_HOSTNAME: lima-default
       GID: ${PGID-1000}
-      UID: ${PUID-1000}
+      UID: ${PUID-501}
     networks:
       - default
     ports:

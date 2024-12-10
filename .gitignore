@@ -183,6 +183,18 @@ secret*.yaml
 .secrets/*
 .direnv/*
 
+logs
+logs/*
+data/*
+data
+secrets/*
+secrets
+.direnv/*
+
+.history
+
+node_modules
+
 .cloudflared
 
 **/*.pem
