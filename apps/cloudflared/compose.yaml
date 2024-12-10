@@ -4,8 +4,6 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     profiles: ["core", "all"]
-    security_opt:
-      - no-new-privileges:true
     networks:
       - external
       - traefik
