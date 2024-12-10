@@ -1,9 +1,9 @@
 version: "3"
 vars:
-  LOG_DIR: "/home/chalk.linux/docker/logs"
-  DATA_DIR: "/home/chalk.linux/docker/data"
-  SECRETS_DIR: "/home/chalk.linux/docker/secrets"
-  APPS_DIR: "/home/chalk.linux/docker/apps"
+  LOG_DIR: "/home/docker/homelab/logs"
+  DATA_DIR: "/home/docker/homelab/data"
+  SECRETS_DIR: "/home/docker/homelab/secrets"
+  APPS_DIR: "/home/docker/homelab/apps"
 env:
   DATA_DIR: "{{.DATA_DIR}}"
   LOG_DIR: "{{.LOG_DIR}}"

@@ -1,2 +1,4 @@
 golang 1.21.0
 yq 4.44.5
+direnv 2.35.0
+task 3.40.1
