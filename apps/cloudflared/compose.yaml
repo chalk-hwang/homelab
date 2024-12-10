@@ -4,14 +4,14 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     profiles: ["core", "all"]
+    security_opt:
+      - no-new-privileges:true
     networks:
       - external
       - traefik
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - $DATA_DIR/cloudflared:/etc/cloudflared:ro
-    # security_opt:
-    # - no-new-privileges:true
     restart: unless-stopped
     command: tunnel --config /etc/cloudflared/config.yaml run
     healthcheck:
