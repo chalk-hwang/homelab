@@ -10,6 +10,8 @@ services:
     container_name: emqx
     profiles: ["apps", "all"]
     environment:
+      - PUID
+      - PGID
       - EMQX_NODE__COOKIE=emqx-cookie
       - EMQX_NODE__NAME=emqx@emqx.$BASE_DOMAIN
       - EMQX_DASHBOARD__DEFAULT_PASSWORD
