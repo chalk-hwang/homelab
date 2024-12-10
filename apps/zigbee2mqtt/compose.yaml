@@ -8,9 +8,10 @@ services:
     networks:
       - traefik
       - default
-    volumes:
+    environment:
       - PUID
       - PGID
+    volumes:
       - $DATA_DIR/zigbee2mqtt:/app/data
       - $LOG_DIR/zigbee2mqtt:/app/log
     depends_on:

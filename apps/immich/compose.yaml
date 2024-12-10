@@ -66,6 +66,8 @@ services:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     environment:
+      - PUID
+      - PGID
       - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
       - UPLOAD_LOCATION=immich-upload
       - IMMICH_CONFIG_FILE

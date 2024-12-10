@@ -7,9 +7,10 @@ services:
     networks:
       - external
       - traefik
-    volumes:
+    environment:
       - PUID
       - PGID
+    volumes:
       - /etc/localtime:/etc/localtime:ro
       - $DATA_DIR/cloudflared:/etc/cloudflared
     restart: unless-stopped
