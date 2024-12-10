@@ -4,12 +4,12 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     profiles: ["core", "all"]
-    networks:
-      - external
-      - traefik
     environment:
       - PUID
       - PGID
+    networks:
+      - external
+      - traefik
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - $DATADIR/cloudflared:/etc/cloudflared

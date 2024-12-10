@@ -4,11 +4,11 @@ cli:
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.5
+      ref: v1.6.6
       uri: https://github.com/trunk-io/plugins
 tools:
   enabled:
-    - yq@4.44.5
+    - yq@4.44.6
   definitions:
     - name: yamlfmt
       runtime: go
@@ -18,20 +18,24 @@ tools:
 runtimes:
   enabled:
     - go@1.21.0
-    - node@18.12.1
+    - node@18.20.5
     - python@3.10.8
 lint:
+  disabled:
+    - shellcheck
   files:
     - name: compose-yaml
       filenames: [compose.yaml, docker-compose.yaml]
   enabled:
+    - hadolint@2.12.1-beta
+    - shfmt@3.6.0
     - osv-scanner@1.9.1
-    - prettier@3.4.1
+    - prettier@3.4.2
     - taplo@0.9.3
-    - checkov@3.2.324
+    - checkov@3.2.334
     - git-diff-check
     - trivy@0.56.2
-    - trufflehog@3.84.1
+    - trufflehog@3.86.0
     - composefmt
     - yamlfmt
     - yamllint@1.35.1
@@ -58,7 +62,7 @@ lint:
           allow_empty_files: false
       suggest_if: files_present
       # go releases are not auto-queriable with our current setup, so we will bump this fixed version from time to time
-      known_good_version: 1.20.4
+      known_good_version: 0.14.0
     - name: composefmt
       files: [compose-yaml]
       commands:

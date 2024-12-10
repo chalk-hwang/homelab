@@ -30,6 +30,8 @@ services:
     networks:
       - traefik
       - default
+    ports:
+      - 2283:2283
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - immich-upload:/usr/src/app/upload
@@ -39,8 +41,6 @@ services:
       - immich-redis
       - timescaledb
     restart: always
-    ports:
-      - 2283:2283
     healthcheck:
       disable: false
     labels:

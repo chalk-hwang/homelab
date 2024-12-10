@@ -86,6 +86,7 @@ services:
     profiles: ["http", "apps", "all"]
     networks:
       - traefik
+    restart: unless-stopped
     labels:
       - "tsdproxy.enable=true"
       - "tsdproxy.name=myip"

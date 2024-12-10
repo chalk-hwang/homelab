@@ -15,6 +15,7 @@ services:
       - default
     volumes:
       - dragonfly-data:/data
+    restart: always
     # command: --default_lua_flags=allow-undeclared-keys,disable-atomicity
     ulimits:
       memlock: -1

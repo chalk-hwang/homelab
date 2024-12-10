@@ -32,10 +32,10 @@ asdf direnv setup --shell fish --version ${ASDF_VERSION}
 cd /workspaces/home-ops
 
 if [ -f .tool-versions ]; then
-    # Add the asdf plugin by extracting the first field (tool name) from the .tool-versions content
-    cut -d' ' -f1 .tool-versions | xargs -I {} asdf plugin add {} || true
+	# Add the asdf plugin by extracting the first field (tool name) from the .tool-versions content
+	cut -d' ' -f1 .tool-versions | xargs -I {} asdf plugin add {} || true
 else
-    echo ".tool-versions 파일을 찾을 수 없습니다."
+	echo ".tool-versions 파일을 찾을 수 없습니다."
 fi
 
 # Install direnv and set local environment
@@ -44,7 +44,7 @@ asdf direnv local
 
 # Generate fish completions for various tools
 for tool in ${TOOLS}; do
-    ${tool} completion fish >${CONFIG_DIR}/fish/completions/"${tool}".fish
+	${tool} completion fish >${CONFIG_DIR}/fish/completions/"${tool}".fish
 done
 gh completion --shell fish >${CONFIG_DIR}/fish/completions/gh.fish
 stern --completion fish >${CONFIG_DIR}/fish/completions/stern.fish
@@ -66,7 +66,7 @@ EOF
 sudo chown -R ${VS_CODE_USER}:${VS_CODE_USER} ${CONFIG_DIR}
 
 # Set up Starship with custom preset
-starship preset nerd-font-symbols > ${CONFIG_DIR}/starship.toml
+starship preset nerd-font-symbols >${CONFIG_DIR}/starship.toml
 
 # Setup fisher plugin manager for fish and install plugins
 /usr/bin/fish -c "

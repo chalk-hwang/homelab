@@ -12,6 +12,7 @@ services:
       - $DATADIR/carpal:/etc/carpal
     depends_on:
       - lldap
+    restart: always
     labels:
       - traefik.enable=true
       - traefik.docker.network=$TRAEFIK_BRIDGE

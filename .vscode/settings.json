@@ -20,7 +20,7 @@
     "data"
   ],
   "files.associations": {
-    "*.yaml": "home-assistant"
+    "**/data/homeassistant/**/*.yaml": "home-assistant"
   },
   // "[dockercompose]": {
   //   "editor.insertSpaces": true,
