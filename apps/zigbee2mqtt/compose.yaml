@@ -5,12 +5,11 @@ services:
     profiles: ["apps", "all"]
     environment:
       - TZ
+      - PUID
+      - PGID
     networks:
       - traefik
       - default
-    environment:
-      - PUID
-      - PGID
     volumes:
       - $DATA_DIR/zigbee2mqtt:/app/data
       - $LOG_DIR/zigbee2mqtt:/app/log
