@@ -8,7 +8,7 @@ services:
       - no-new-privileges:true
     environment:
       - CROWDSEC_AGENT_HOST=crowdsec:8080
-      - CROWDSEC_BOUNCER_API_KEY=nVd2LyZT/oFTaPRUUbHKByuTxYB3+BJoTx5zK/isOWw
+      - CROWDSEC_BOUNCER_API_KEY=$TRAEFIK_CROWDSEC_BOUNCER_API_KEY
       - GIN_MODE=release
     networks:
       - traefik
