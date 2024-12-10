@@ -37,6 +37,7 @@ services:
       - oidc_tailscale_client_secret
       - oidc_immich_client_secret
       - oidc_portainer_client_secret
+      - oidc_pgadmin_client_secret
     networks:
       - traefik
       - default
@@ -92,3 +93,5 @@ secrets:
     file: $SECRETS_DIR/oidc_immich_client_secret
   oidc_portainer_client_secret:
     file: $SECRETS_DIR/oidc_portainer_client_secret
+  oidc_pgadmin_client_secret:
+    file: $SECRETS_DIR/oidc_pgadmin_client_secret
