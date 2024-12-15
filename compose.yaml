@@ -10,6 +10,7 @@ networks:
     external: true
     name: $TRAEFIK_BRIDGE
 include:
+  - apps/uptime-kuma/compose.yaml
   - apps/authelia/compose.yaml
   # - apps/smtp-relay/compose.yaml
   # - apps/tsdproxy/compose.yaml

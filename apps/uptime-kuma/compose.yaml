@@ -1,0 +1,26 @@
+services:
+  # Uptime Kuma - Status Page & Monitoring Server
+  uptime-kuma:
+    image: louislam/uptime-kuma
+    container_name: uptime-kuma
+    profiles: ["core", "all"]
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - default
+      - traefik
+    volumes:
+      - $DATADIR/uptime-kuma:/app/data
+    restart: unless-stopped
+    labels:
+      - "tsdproxy.enable=true"
+      - "tsdproxy.name=uptime"
+      - "tsdproxy.container_port=3001"
+      - "tsdproxy.ephemeral=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=$TRAEFIK_BRIDGE"
+      - "traefik.http.routers.uptimekuma-rtr.entrypoints=websecure"
+      - "traefik.http.routers.uptimekuma-rtr.rule=Host(`uptime.$BASE_DOMAIN`)"
+      - "traefik.http.routers.uptimekuma-rtr.middlewares=chain-no-auth@file"
+      - "traefik.http.services.uptimekuma-svc.loadbalancer.server.port=9000"
+      - "traefik.http.routers.uptimekuma-rtr.service=uptimekuma-svc"
