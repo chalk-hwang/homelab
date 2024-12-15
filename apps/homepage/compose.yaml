@@ -15,8 +15,8 @@ services:
       - default
     #  - "$HOMEPAGE_PORT:3000"
     volumes:
-      - $LOGDIR/homepage:/app/logs
-      - $DATADIR/homepage:/app/config
+      - $LOGSPATH/homepage:/app/logs
+      - $DATAPATH/homepage:/app/config
     restart: unless-stopped
     labels:
       - tsdproxy.enable=true

@@ -17,11 +17,11 @@ services:
       - "8080:8080" # Local API port
     volumes:
       # - $RUN_DIR/logs/cloudserver:/logs/cloudserver:ro
-      - $LOGDIR:/logs:ro
+      - $LOGSPATH:/logs:ro
       - /var/log:/var/log:ro
       # - $EXTDRIVE/zbox/var/log:/logs/zbox:ro
       - crowdsec-data:/var/lib/crowdsec/data
-      - $DATADIR/crowdsec:/etc/crowdsec
+      - $DATAPATH/crowdsec:/etc/crowdsec
     depends_on:
       - traefik
     restart: unless-stopped

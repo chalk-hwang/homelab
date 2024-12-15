@@ -1,8 +1,8 @@
 secrets:
   traefik_basic_auth_credentials:
-    file: $SECRETSDIR/traefik_basic_auth_credentials
+    file: $SECRETSPATH/traefik_basic_auth_credentials
   traefik_cloudflare_dns_api_token:
-    file: $SECRETSDIR/traefik_cloudflare_dns_api_token
+    file: $SECRETSPATH/traefik_cloudflare_dns_api_token
 services:
   traefik:
     image: traefik:3.2
@@ -29,10 +29,10 @@ services:
       - 0.0.0.0:443:443
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $DATADIR/traefik/traefik.yaml:/etc/traefik/traefik.yaml
-      - $DATADIR/traefik/dynamic:/config/dynamic:ro
-      - $DATADIR/traefik/acme.json:/acme.json
-      - $LOGDIR/traefik:/logs
+      - $DATAPATH/traefik/traefik.yaml:/etc/traefik/traefik.yaml
+      - $DATAPATH/traefik/dynamic:/config/dynamic:ro
+      - $DATAPATH/traefik/acme.json:/acme.json
+      - $LOGSPATH/traefik:/logs
     depends_on:
       docker-proxy:
         condition: service_started
@@ -58,7 +58,7 @@ services:
     profiles: ["http", "core", "all"]
     network_mode: none
     volumes:
-      - $LOGDIR/traefik/access.log:/var/log/stream.log:ro
+      - $LOGSPATH/traefik/access.log:/var/log/stream.log:ro
     depends_on:
       - traefik
     restart: unless-stopped
@@ -72,7 +72,7 @@ services:
     profiles: ["http", "core", "all"]
     network_mode: none
     volumes:
-      - $LOGDIR/traefik/traefik.log:/var/log/stream.log:ro
+      - $LOGSPATH/traefik/traefik.log:/var/log/stream.log:ro
     depends_on:
       - traefik
     restart: unless-stopped

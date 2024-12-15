@@ -8,8 +8,8 @@ services:
       - "LOG_LEVEL=info"
       - "LOG_JSON=false"
     volumes:
-      - "$DATADIR/diun/data:/data"
-      - "$DATADIR/diun/diun.yaml:/diun.yml:ro"
+      - "$DATAPATH/diun/data:/data"
+      - "$DATAPATH/diun/diun.yaml:/diun.yml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: always
     command: serve

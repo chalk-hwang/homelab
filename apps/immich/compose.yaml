@@ -1,6 +1,6 @@
 volumes:
   # docker run \
-  #   --mount='type=volume,dst=/home/chalk.linux/docker/data/immich/upload,volume-driver=local,volume-opt=device=/dev/disk/by-label/lima-photos,volume-opt=type=ext4'
+  #   --mount='type=volume,dst=/home/hdh.linux/docker/data/immich/upload,volume-driver=local,volume-opt=device=/dev/disk/by-label/lima-photos,volume-opt=type=ext4'
   immich-upload:
     driver: local
     driver_opts:
@@ -10,7 +10,7 @@ volumes:
   immich-redis-data:
 secrets:
   immich_database_url:
-    file: $SECRETSDIR/immich_database_url
+    file: $SECRETSPATH/immich_database_url
 services:
   immich:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
@@ -35,7 +35,7 @@ services:
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - immich-upload:/usr/src/app/upload
-      - $DATADIR/immich/config.json:/usr/src/app/config.json
+      - $DATAPATH/immich/config.json:/usr/src/app/config.json
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - immich-redis
@@ -113,8 +113,8 @@ services:
       #   - IMMICH_CONFIG_FILE=/config/immich.json
       #   volumes:
       #   - ./config:/config
-      #   - $DATADIR/immich/data:/photos
-      #   - $DATADIR/immich/libraries:/libraries #optional
+      #   - $DATAPATH/immich/data:/photos
+      #   - $DATAPATH/immich/libraries:/libraries #optional
       #   restart: unless-stopped
       #   env_file:
       #   - .env

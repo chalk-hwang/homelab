@@ -12,7 +12,7 @@ services:
       - traefik
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - $DATADIR/cloudflared:/etc/cloudflared
+      - $DATAPATH/cloudflared:/etc/cloudflared
     restart: unless-stopped
     command: tunnel --config /etc/cloudflared/config.yaml run
     healthcheck:

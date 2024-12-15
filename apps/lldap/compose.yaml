@@ -1,12 +1,12 @@
 secrets:
   lldap_database_url:
-    file: $SECRETSDIR/lldap_database_url
+    file: $SECRETSPATH/lldap_database_url
   lldap_jwt_secret:
-    file: $SECRETSDIR/lldap_jwt_secret
+    file: $SECRETSPATH/lldap_jwt_secret
   lldap_key_seed:
-    file: $SECRETSDIR/lldap_key_seed
+    file: $SECRETSPATH/lldap_key_seed
   lldap_ldap_user_pass:
-    file: $SECRETSDIR/lldap_ldap_user_pass
+    file: $SECRETSPATH/lldap_ldap_user_pass
 services:
   lldap:
     image: lldap/lldap:stable
@@ -35,7 +35,7 @@ services:
     ports:
       - "389:389"
     volumes:
-      - $DATADIR/lldap:/data
+      - $DATAPATH/lldap:/data
       # - ./lldap_config.toml:/data/lldap_config.toml
     depends_on:
       - timescaledb

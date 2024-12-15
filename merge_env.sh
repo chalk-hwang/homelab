@@ -7,13 +7,13 @@ PROJECT_ENV="./stack.env"
 echo "# Merged .env file" >"$PROJECT_ENV"
 
 # apps 디렉토리 경로
-APPS_DIR="./apps"
+APPSPATH="./apps"
 
 # 임시 딕셔너리를 위한 배열 초기화
 declare -A env_dict
 
 # 디렉토리 내 모든 .env 파일 순회
-for env_file in "$APPS_DIR"/*/.env; do
+for env_file in "$APPSPATH"/*/.env; do
 	# 컨테이너 이름 추출
 	container_name=$(basename "$(dirname "$env_file")")
 

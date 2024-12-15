@@ -15,7 +15,7 @@ services:
     network_mode: host
     volumes:
       # Local path where your home assistant config will be stored
-      - $DATADIR/homeassistant:/config
+      - $DATAPATH/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     depends_on:

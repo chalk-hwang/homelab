@@ -1,13 +1,11 @@
 version: "3"
 vars:
-  LOGDIR: "/home/chalk.linux/workspace/logs"
-  DATADIR: "/home/chalk.linux/workspace/data"
-  SECRETSDIR: "/home/chalk.linux/workspace/secrets"
-  APPS_DIR: "/home/chalk.linux/workspace/apps"
-env:
-  DATADIR: "{{.DATADIR}}"
-  LOGDIR: "{{.LOGDIR}}"
-  SECRETSDIR: "{{.SECRETSDIR}}"
+  PROJECT_ROOT: "$PROJECT_ROOT"
+  SECRETSPATH: "$SECRETSPATH"
+  APPSPATH: "$APPSPATH"
+  STORAGE_ROOT: "$STORAGE_ROOT"
+  DATAPATH: "$DATAPATH"
+  LOGSPATH: "$LOGSPATH"
 dotenv: ["./.env"]
 includes:
   compose:

@@ -32,4 +32,4 @@ services:
     restart: always
 secrets:
   traefik_cloudflare_dns_api_token:
-    file: $SECRETSDIR/traefik_cloudflare_dns_api_token
+    file: $SECRETSPATH/traefik_cloudflare_dns_api_token
