@@ -1,0 +1,15 @@
+services:
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    profiles: ["base"]
+    environment:
+      - "TZ=Asia/Seoul"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+    volumes:
+      - "$DATADIR/diun/data:/data"
+      - "$DATADIR/diun/diun.yaml:/diun.yml:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: always
+    command: serve

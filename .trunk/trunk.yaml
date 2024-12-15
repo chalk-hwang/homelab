@@ -34,8 +34,8 @@ lint:
     - taplo@0.9.3
     - checkov@3.2.334
     - git-diff-check
-    - trivy@0.56.2
-    - trufflehog@3.86.0
+    - trivy@0.58.0
+    - trufflehog@3.86.1
     - composefmt
     - yamlfmt
     - yamllint@1.35.1
@@ -62,7 +62,7 @@ lint:
           allow_empty_files: false
       suggest_if: files_present
       # go releases are not auto-queriable with our current setup, so we will bump this fixed version from time to time
-      known_good_version: 0.14.0
+      # known_good_version: 0.14.0
     - name: composefmt
       files: [compose-yaml]
       commands:

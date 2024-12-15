@@ -14,4 +14,4 @@ include:
   - apps/tsdproxy/compose.yaml
   # - apps/docker-proxy/compose.yaml
   - apps/portainer/compose.yaml
-  # - apps/exitnode/compose.yam
+  - apps/diun/compose.yaml
