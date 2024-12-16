@@ -3,7 +3,7 @@ volumes:
 services:
   # Redis - Key-value Store
   redis:
-    user: $PUID:$PGID
+    user: root
     container_name: redis
     image: redis:latest
     security_opt:
