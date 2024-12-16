@@ -1,0 +1,18 @@
+services:
+  # Grafana - Graphical data visualization for InfluxDB data
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    profiles: ["apps", "all"]
+    networks:
+      - treafik
+      - default
+    user: $PUID
+    volumes:
+      - $DATAPATH/grafana:/var/lib/grafana
+    environment:
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel,grafana-piechart-panel,cloudflare-app"
+    # DOCKER-LABELS-PLACEHOLDER

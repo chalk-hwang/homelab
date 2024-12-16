@@ -10,7 +10,7 @@ services:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/whitelist-good-actors crowdsecurity/iptables crowdsecurity/linux
       CUSTOM_HOSTNAME: lima-default
       GID: ${PGID-1000}
-      UID: ${PUID-501}
+      UID: ${PUID-1000}
     networks:
       - default
     ports:
@@ -19,8 +19,8 @@ services:
       # - $RUN_DIR/logs/cloudserver:/logs/cloudserver:ro
       - $LOGSPATH:/logs:ro
       - /var/log:/var/log:ro
-      # - $EXTDRIVE/zbox/var/log:/logs/zbox:ro
-      - crowdsec-data:/var/lib/crowdsec/data
+      # - $EXTDRIVE/zbox/var/log:/losec/datags/zbox:ro
+      - crowdsec-data:/var/lib/crowd
       - $DATAPATH/crowdsec:/etc/crowdsec
     depends_on:
       - traefik

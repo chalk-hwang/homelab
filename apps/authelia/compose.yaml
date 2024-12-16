@@ -9,8 +9,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - BASE_DOMAIN
       - TS_DOMAIN
-      - PUID=$PUID
-      - PGID=$PGID
+      - PUID
+      - PGID
+      - REDIS_HOSTNAME
+      - REDIS_PASSWORD
       - AUTHELIA_NOTIFIER_SMTP_ADDRESS
       - AUTHELIA_NOTIFIER_SMTP_SENDER
       - AUTHELIA_NOTIFIER_SMTP_USERNAME
@@ -48,7 +50,7 @@ services:
       - $DATAPATH/authelia/configuration.acl.yaml:/config/configuration.acl.yml
       - $DATAPATH/authelia/configuration.oidc.yaml:/config/configuration.oidc.yml
     depends_on:
-      - dragonfly
+      - redis
       - timescaledb
       - traefik
     restart: unless-stopped

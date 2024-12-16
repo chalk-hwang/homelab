@@ -16,7 +16,7 @@ include:
   # - apps/tsdproxy/compose.yaml
   - apps/carpal/compose.yaml
   - apps/crowdsec/compose.yaml
-  - apps/dragonfly/compose.yaml
+  - apps/redis/compose.yaml
   - apps/pgadmin/compose.yaml
   - apps/lldap/compose.yaml
   - apps/cloudflared/compose.yaml
@@ -31,5 +31,8 @@ include:
   - apps/zigbee2mqtt/compose.yaml
   - apps/homeassistant/compose.yaml
   - apps/homepage/compose.yaml
+  - apps/prometheus/compose.yaml
+  - apps/node-exporter/compose.yaml
+  - apps/grafana/compose.yaml
   # - apps/portainer/compose.yaml
   # - apps/exitnode/compose.yam

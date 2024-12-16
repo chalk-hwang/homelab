@@ -20,7 +20,8 @@ services:
       - PUID
       - PGID
       - DB_URL_FILE=/run/secrets/immich_database_url
-      - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
+      - REDIS_HOSTNAME
+      - REDIS_PASSWORD
       - UPLOAD_LOCATION=immich-upload
       - IMMICH_CONFIG_FILE
       - IMMICH_VERSION
@@ -70,7 +71,8 @@ services:
     environment:
       - PUID
       - PGID
-      - REDIS_HOSTNAME=$IMMICH_REDIS_HOSTNAME
+      - REDIS_HOSTNAME
+      - REDIS_PASSWORD
       - UPLOAD_LOCATION=immich-upload
       - IMMICH_CONFIG_FILE
       - IMMICH_VERSION
@@ -82,43 +84,4 @@ services:
     restart: always
     healthcheck:
       disable: false
-  immich-redis:
-    image: docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
-    container_name: immich-redis
-    profiles: ["apps", "all"]
-    networks:
-      - default
-    restart: always
-    healthcheck:
-      test: redis-cli ping || exit 1
-      #   container_name: immich
-      #   depends_on:
-      #   - immich-redis
-      #   - timescaledb
-      #   environment:
-      #   - PUID=1000
-      #   - PGID=1000
-      #   - DB_HOSTNAME=timescaledb
-      #   - DB_USERNAME=immich
-      #   - DB_PASSWORD
-      #   - DB_DATABASE_NAME=immich
-      #   - DB_PORT=5432 #optional
-      #   - REDIS_HOSTNAME=immich-redis
-      #   - REDIS_PORT=6379 #optionalv
-      #   - REDIS_PASSWORD=
-      #   - MACHINE_LEARNING_HOST=0.0.0.0 #optional
-      #   - MACHINE_LEARNING_PORT=3003 #optional
-      #   - MACHINE_LEARNING_WORKERS=1 #optional
-      #   - MACHINE_LEARNING_WORKER_TIMEOUT=120 #optionals
-      #   - IMMICH_CONFIG_FILE=/config/immich.json
-      #   volumes:
-      #   - ./config:/config
-      #   - $DATAPATH/immich/data:/photos
-      #   - $DATAPATH/immich/libraries:/libraries #optional
-      #   restart: unless-stopped
-      #   env_file:
-      #   - .env
-      #   networks:
-      #   - traefik
-      #   - default  # immich:
-      #   image: ghcr.io/imagegenius/immich:latest
+  
