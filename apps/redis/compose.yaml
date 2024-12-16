@@ -3,13 +3,10 @@ volumes:
 services:
   # Redis - Key-value Store
   redis:
-    user: root
     container_name: redis
     image: redis:latest
     security_opt:
       - no-new-privileges:true
-    sysctls:
-      - vm.overcommit_memory=1
     restart: unless-stopped
     profiles: ["core", "all"]
     healthcheck:
