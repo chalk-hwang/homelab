@@ -15,4 +15,8 @@ services:
       - $DATAPATH/grafana:/var/lib/grafana
     environment:
       GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource,grafana-worldmap-panel,grafana-piechart-panel,cloudflare-app"
-    # DOCKER-LABELS-PLACEHOLDER
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=grafana
+      - tsdproxy.container_port=3000
+      - tsdproxy.ephemeral=true

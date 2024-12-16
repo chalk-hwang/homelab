@@ -20,4 +20,8 @@ services:
       - '--path.sysfs=/host/sys'
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    # DOCKER-LABELS-PLACEHOLDER
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=node-exporter
+      - tsdproxy.container_port=9100
+      - tsdproxy.ephemeral=true

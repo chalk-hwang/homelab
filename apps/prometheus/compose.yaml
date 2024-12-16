@@ -24,4 +24,8 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
       - '--web.enable-lifecycle'
       - '--web.enable-admin-api'
-    # DOCKER-LABELS-PLACEHOLDER
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=prometheus
+      - tsdproxy.container_port=9090
+      - tsdproxy.ephemeral=true
