@@ -39,7 +39,6 @@ services:
       - $DATAPATH/immich/config.json:/usr/src/app/config.json
       - /etc/localtime:/etc/localtime:ro
     depends_on:
-      - immich-redis
       - timescaledb
     restart: always
     healthcheck:
